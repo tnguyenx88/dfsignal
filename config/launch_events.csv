@@ -1,0 +1,2 @@
+event_date,event_type,vendor,product_family,product_name,generation,market_segment,price,performance_tier,tdp,vram,platform,source,confidence,is_example_event,event_status
+2024-01-08,GPU_LAUNCH,NVIDIA,GPU,Example Public Event,GENERIC,consumer,,,,PC,https://www.nvidia.com/,0.95,true,EXAMPLE

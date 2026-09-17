@@ -1,0 +1,1 @@
+"""Weekly normalization and validation."""

@@ -1,0 +1,19 @@
+target:
+  column: pos_qty
+  allowed_columns: [pos_qty, shipment_qty, booking_qty]
+  fallback_column: null
+forecast_horizons_weeks: [4, 8, 13, 26]
+forecast_feature_set: gpu_signal
+time_grain: weekly
+week_end: saturday
+models:
+  seasonal_naive: true
+  ets: true
+  lightgbm: true
+intervals:
+  coverage: 0.9
+  method: residual_conformal
+backtest:
+  minimum_train_weeks: 52
+  cutoffs: 5
+  metric_epsilon: 1.0e-9

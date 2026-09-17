@@ -1,0 +1,9 @@
+business_families:
+  Memory / PC Components:
+    signals:
+      - consumer_sentiment
+      - retail_sales_proxy
+      - steam_gpu_adoption
+      - steam_ram_32gb_plus_share
+      - gpu_launch_score
+      - cpu_launch_score

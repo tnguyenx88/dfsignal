@@ -1,0 +1,11 @@
+overrides: []
+# Example entry (disabled until reviewed):
+# - match:
+#     vendor: NVIDIA
+#     product_name: GeForce RTX 4090
+#   generation: RTX_40
+#   market_segment: DESKTOP_CONSUMER
+#   performance_tier: ENTHUSIAST
+#   override_reason: reviewed public product correction
+#   reviewed_by: public-data-reviewer
+#   review_date: 2026-09-16

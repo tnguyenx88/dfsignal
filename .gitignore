@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Local data and generated outputs
+data/raw/*
+data/processed/*
+data/bronze/*
+data/silver/*
+data/gold/*
+data/cache/*
+data/external/*
+data/smoke-*/
+data/worker_smoke/
+# Future confidential internal landing zone and isolated pilot outputs
+data/internal/
+outputs/internal_pilot/
+data/synthetic/*
+outputs/*
+*.csv
+*.parquet
+*.duckdb
+*.db
+!config/*.csv
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS and IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

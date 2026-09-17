@@ -1,0 +1,11 @@
+fred_series:
+  - series_id: UMCSENT
+    feature_name: consumer_sentiment
+    category: macro
+    frequency: monthly
+    enabled: true
+  - series_id: RRSFS
+    feature_name: retail_sales_proxy
+    category: retail
+    frequency: monthly
+    enabled: true

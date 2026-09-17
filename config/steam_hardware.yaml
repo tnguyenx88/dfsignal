@@ -1,0 +1,52 @@
+schema_version: steam_hardware_config_v1
+optional: true
+enabled: true
+source_url: https://raw.githubusercontent.com/jdegene/steamHWsurvey/2956269770acc5f05a042d793a3c2251e82b550b/shs.csv
+anomaly_registry: config/steam_anomalies.yaml
+future_strategy: OBSERVED_ONLY
+publication_lag_months: 1
+weekly_normalization: latest_monthly_observation_carried_to_week_end
+assume_publication_date: next_month_start_when_exact_date_unavailable
+percentage_unit: percent
+gpu_generation_order: [RTX_50, RX_9000, RTX_40, RX_7000, RTX_30, RX_6000, RTX_20, RX_5000, GTX_16, GTX_10, RX_500, RX_400, GTX_900, GTX_700]
+gpu_generation_mapping:
+  RTX_50:
+    - "\\bRTX\\s*50"
+    - "\\b5090\\b"
+    - "\\b5080\\b"
+    - "\\b5070\\b"
+  RTX_40:
+    - "\\bRTX\\s*40"
+    - "\\b4090\\b"
+    - "\\b4080\\b"
+    - "\\b4070\\b"
+  RTX_30:
+    - "\\bRTX\\s*30"
+    - "\\b3090\\b"
+    - "\\b3080\\b"
+    - "\\b3070\\b"
+  RTX_20:
+    - "\\bRTX\\s*20"
+    - "\\b2080\\b"
+    - "\\b2070\\b"
+    - "\\b2060\\b"
+  GTX_16:
+    - "\\bGTX\\s*16"
+  GTX_10:
+    - "\\bGTX\\s*10"
+  GTX_900:
+    - "\\bGTX\\s*9[0-9]{2}"
+  GTX_700:
+    - "\\bGTX\\s*7[0-9]{2}"
+  RX_9000:
+    - "\\bRX\\s*9[0-9]{3}"
+  RX_7000:
+    - "\\bRX\\s*7[0-9]{3}"
+  RX_6000:
+    - "\\bRX\\s*6[0-9]{3}"
+  RX_5000:
+    - "\\bRX\\s*5[0-9]{3}"
+  RX_500:
+    - "\\bRX\\s*5[0-9]{2}\\b"
+  RX_400:
+    - "\\bRX\\s*4[0-9]{2}\\b"

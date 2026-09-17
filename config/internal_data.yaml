@@ -1,0 +1,43 @@
+# Future approved internal-demand extract configuration.
+# Keep source.enabled false until a real de-identified file is approved.
+source:
+  source_id: internal_demand
+  source_name: Approved de-identified internal demand extract
+  type: local_internal
+  enabled: false
+  path: data/internal/*
+  supported_formats: [csv, parquet]
+  data_classification: CONFIDENTIAL_INTERNAL_DE_IDENTIFIED
+
+grain:
+  preferred: WEEK x BUSINESS_SEGMENT x PRODUCT_GROUP
+  keys: [week, business_segment, product_group]
+  minimum_keys: [week, product_group]
+
+# Source column names are intentionally unset until the approved extract arrives.
+# Values are source column names; canonical names are the mapping keys.
+date_column: null
+week_column: week
+
+dimensions:
+  business_segment: null
+  product_group: null
+  product_family: null
+  region: null
+  channel: null
+
+measures:
+  pos_qty: null
+  pos_revenue: null
+  shipment_qty: null
+  shipment_revenue: null
+  booking_qty: null
+  booking_revenue: null
+  asp: null
+  inventory_qty: null
+
+target:
+  preferred: pos_qty
+  alternatives: [shipment_qty, booking_qty]
+
+allowed_product_groups: []

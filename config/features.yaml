@@ -1,0 +1,22 @@
+week_ending: Saturday
+lag_weeks: [1, 2, 4, 8, 13, 26, 52]
+rolling_mean_weeks: [4, 8, 13, 26, 52]
+rolling_std_weeks: [4, 13]
+known_calendar_features: [week_of_year, month, quarter, christmas, black_friday, cyber_monday, back_to_school]
+feature_sets:
+  history_only:
+    include: [history]
+  calendar:
+    include: [history, calendar]
+  macro:
+    include: [history, calendar, macro]
+  gpu_signal:
+    include: [history, calendar, macro, gpu_signal]
+  all_external:
+    include: [history, calendar, macro, gpu_signal, steam]
+external_feature_strategies:
+  default: observed_only
+  macro: observed_only
+  gpu_signal: observed_only
+  event: observed_only
+  steam: observed_only

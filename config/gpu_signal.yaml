@@ -1,0 +1,23 @@
+filter:
+  allowed_market_segments:
+    - DESKTOP_CONSUMER
+  excluded_market_segments:
+    - DATACENTER
+    - INTEGRATED
+  include_unknown: false
+  include_mobile: false
+  include_workstation: false
+  include_legacy: false
+scoring:
+  major_launch_threshold: 3
+  weights:
+    launch_count: 1.0
+    enthusiast_count: 2.0
+    high_power_count: 1.0
+  importance:
+    enthusiast: 3.0
+    high: 2.0
+    mid: 1.0
+    entry: 0.0
+    integrated: 0.0
+    unknown: 0.0

@@ -1,0 +1,92 @@
+execution_mode: LOCAL_DEV
+week_ending: Saturday
+historical_start: 2016-01-01
+storage:
+  root_dir: data
+  database_path: data/dfsignal.duckdb
+
+sources:
+  fred:
+    source_id: FRED
+    source_name: Federal Reserve Economic Data
+    category: macroeconomic
+    business_area: Memory / PC Components
+    signal_type: macro
+    source_url: https://fred.stlouisfed.org/graph/fredgraph.csv
+    access_method: HTTP_API
+    historical_start: 2016-01-01
+    expected_frequency: monthly
+    storage_layer: bronze
+    enabled: true
+    license: public
+    notes: Configured series are listed in config/fred.yaml.
+  gpu_specs:
+    source_id: KAGGLE_GPU_SPECS
+    source_name: GPUs Specs from 1986 to 2026
+    category: hardware
+    business_area: Memory / PC Components
+    signal_type: product_launch
+    source_url: https://www.kaggle.com/api/v1/datasets/download/ellimaaac/gpus-specs-from-1986-to-2026
+    access_method: HTTP_API
+    historical_start: 1986-01-01
+    expected_frequency: static_dataset
+    storage_layer: bronze
+    enabled: true
+    license: verify_upstream_dataset
+    notes: Public Kaggle dataset; archive may contain schema/file-name changes.
+  steam_hardware:
+    source_id: STEAM_HARDWARE
+    source_name: jdegene steamHWsurvey shs.csv
+    category: gaming_ecosystem
+    business_area: Memory / PC Components
+    signal_type: hardware_adoption
+    source_url: https://github.com/jdegene/steamHWsurvey/blob/master/shs.csv
+    source_repository: https://github.com/jdegene/steamHWsurvey
+    access_method: CSV_OR_PARQUET
+    path: steam_hardware/shs.csv
+    historical_start: 2016-01-01
+    expected_frequency: monthly
+    storage_layer: bronze
+    enabled: true
+    license: upstream_license_not_declared
+    notes: External ignored input; API license is null and no LICENSE file was found.
+  launch_events:
+    source_id: MANUAL_LAUNCH_EVENTS
+    source_name: Maintained hardware launch events
+    category: product_events
+    business_area: Memory / PC Components
+    signal_type: event
+    source_url: config/launch_events.csv
+    access_method: MANUAL_EVENT
+    historical_start: 2016-01-01
+    expected_frequency: event
+    storage_layer: bronze
+    enabled: true
+    license: source_specific
+    notes: Review each source URL before operational use.
+  synthetic_demand:
+    source_id: SYNTHETIC
+    source_name: Synthetic internal demand experiment
+    category: internal_sample
+    business_area: Memory / PC Components
+    signal_type: target
+    source_url: null
+    access_method: GENERATED
+    historical_start: 2016-01-01
+    expected_frequency: weekly
+    storage_layer: bronze
+    enabled: true
+    license: internal_poc
+    notes: Never interpret as real Corsair demand.
+
+  internal_demand:
+    source_id: internal_demand
+    source_name: Approved de-identified internal demand extract
+    type: local_internal
+    enabled: false
+    path: data/internal/*
+    supported_formats: [csv, parquet]
+    expected_frequency: weekly
+    storage_layer: bronze
+    data_classification: CONFIDENTIAL_INTERNAL_DE_IDENTIFIED
+    notes: Optional future source. Must remain disabled until an approved file is provided.

@@ -1,0 +1,52 @@
+canonical_order:
+  - RTX_50
+  - RTX_40
+  - RTX_30
+  - RTX_20
+  - GTX_16
+  - GTX_10
+  - GTX_900
+  - GTX_700
+  - GTX_600
+  - RX_9000
+  - RX_7000
+  - RX_6000
+  - RX_5000
+  - RX_500
+  - ARC
+  - LEGACY
+  - UNKNOWN
+rules:
+  - canonical_generation: RTX_50
+    vendor: NVIDIA
+    pattern: "\\b(?:geforce\\s*)?rtx\\s*50(?:90|80|70|60|50)\\b"
+  - canonical_generation: RTX_40
+    vendor: NVIDIA
+    pattern: "\\b(?:geforce\\s*)?rtx\\s*40(?:90|80|70|60|50)\\b"
+  - canonical_generation: RTX_30
+    vendor: NVIDIA
+    pattern: "\\b(?:geforce\\s*)?rtx\\s*30(?:90|80|70|60|50)\\b"
+  - canonical_generation: RTX_20
+    vendor: NVIDIA
+    pattern: "\\b(?:geforce\\s*)?rtx\\s*20(?:90|80|70|60|50)\\b"
+  - canonical_generation: GTX_16
+    vendor: NVIDIA
+    pattern: "\\b(?:geforce\\s*)?gtx\\s*16(?:90|80|70|60|50)\\b"
+  - canonical_generation: GTX_10
+    vendor: NVIDIA
+    pattern: "\\b(?:geforce\\s*)?gtx\\s*(?:10(?:80|70|60|50)|1080|1070|1060|1050)\\b"
+  - canonical_generation: RX_9000
+    vendor: AMD
+    pattern: "\\b(?:amd\\s*)?(?:radeon\\s*)?rx\\s*9(?:0|5)00\\b"
+  - canonical_generation: RX_7000
+    vendor: AMD
+    pattern: "\\b(?:amd\\s*)?(?:radeon\\s*)?rx\\s*7(?:900|800|700|600|500)\\b"
+  - canonical_generation: RX_6000
+    vendor: AMD
+    pattern: "\\b(?:amd\\s*)?(?:radeon\\s*)?rx\\s*6(?:900|800|700|600|500)\\b"
+  - canonical_generation: RX_5000
+    vendor: AMD
+    pattern: "\\b(?:amd\\s*)?(?:radeon\\s*)?rx\\s*5(?:900|800|700|600|500)\\b"
+  - canonical_generation: ARC
+    vendor: Intel
+    pattern: "\\b(?:intel\\s*)?arc\\s*[ab]?[357]\\d{2}\\b"
