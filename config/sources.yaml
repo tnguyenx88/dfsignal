@@ -77,7 +77,7 @@ sources:
     storage_layer: bronze
     enabled: true
     license: internal_poc
-    notes: Never interpret as real Corsair demand.
+    notes: Never interpret as real enterprise demand.
 
   internal_demand:
     source_id: internal_demand
