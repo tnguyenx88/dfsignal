@@ -6,9 +6,13 @@ import argparse
 from collections.abc import Mapping, Sequence
 import json
 from typing import Any
+import subprocess
+from pathlib import Path
+import sys
 
 from .config import get_settings
 from .logging import configure_logging
+from .reporting.business_language import cli_recap
 
 
 COMMANDS = (
@@ -24,6 +28,8 @@ COMMANDS = (
     "run-all",
     "steam-real",
     "internal-check",
+    "dashboard",
+    "summary",
     "demo",
 )
 
@@ -39,6 +45,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--start-date", default="2016-01-01")
     parser.add_argument("--end-date", default="2025-12-31")
     parser.add_argument("--no-fetch-external", action="store_true", help="Use synthetic/manual inputs only")
+    parser.add_argument("--open-summary", action="store_true", help="Open the generated Markdown summary with the default application")
     return parser
 
 
@@ -61,13 +68,45 @@ def _stage_summary(value: Any) -> dict[str, Any]:
 def main(argv: Sequence[str] | None = None) -> None:
     args = _parser().parse_args(list(argv) if argv is not None else None)
     settings = get_settings()
-    configure_logging(settings.log_level)
     from .orchestration import make_context, run_stage
     from .pipeline import run_all, status
+    if args.command == "dashboard":
+        print("Starting DFSignal Dashboard at http://localhost:8501")
+        print("The default browser will open automatically. Press Ctrl+C to stop the server.")
+        app_path = str(Path(__file__).resolve().parent / "app.py")
+        raise SystemExit(
+            subprocess.call(
+                [
+                    sys.executable,
+                    "-m",
+                    "streamlit",
+                    "run",
+                    app_path,
+                    "--server.address",
+                    "localhost",
+                    "--server.port",
+                    "8501",
+                    "--server.headless",
+                    "false",
+                    "--browser.gatherUsageStats",
+                    "false",
+                ]
+            )
+        )
+    if args.command == "summary":
+        from .reporting.business_language import generate_latest_executive_summary, generate_phase1_summaries, write_latest_recap
+        summary_path = generate_latest_executive_summary(args.output_dir)
+        generate_phase1_summaries(args.output_dir)
+        write_latest_recap(args.output_dir)
+        print(f"Latest executive summary: {summary_path}")
+        print(cli_recap(command="summary", result={"status": {"pipeline": {"health": "healthy"}}}))
+        if args.open_summary:
+            import os
+            os.startfile(summary_path) if hasattr(os, "startfile") else None
+        return
     fetch_external = not args.no_fetch_external
     if args.command == "internal-check":
         try:
-            from pathlib import Path
 
             from .ingestion.internal import validate_internal_source
 
@@ -97,6 +136,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         except Exception as exc:
             raise SystemExit(f"dfsignal steam-real failed: {type(exc).__name__}: {exc}") from exc
         print(json.dumps(result, indent=2, default=_json_default))
+        print(cli_recap(command="steam-real", result=result))
         return
     if args.command in {"run-all", "demo"}:
         try:
@@ -111,6 +151,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         except Exception as exc:
             raise SystemExit(f"dfsignal {args.command} failed: {type(exc).__name__}: {exc}") from exc
         print(json.dumps(result["status"], indent=2, default=_json_default))
+        print(cli_recap(command=args.command, result=result))
         return
 
     context = make_context(

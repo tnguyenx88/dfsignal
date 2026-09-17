@@ -27,6 +27,7 @@ from ..transformation.steam import (
     join_launch_adoption,
     validate_steam_source,
 )
+from ..reporting.business_language import generate_phase1_summaries, write_latest_recap
 
 
 STEAM_SIGNAL_COLUMNS = (
@@ -304,8 +305,9 @@ def run_real_experiment(
         shap_parts.append(_shap_stability(features, steam_signal_columns, feature_set, cutoffs))
     shap = pd.concat(shap_parts, ignore_index=True)
     _write_frame(output_dir / "validation" / "steam_shap_stability.csv", shap)
-    print("[steam-real] Đã ghi SHAP; hoàn tất và trả kết quả.", flush=True)
     _write_json(output_dir / "validation" / "steam_experiment_report.json", {"validation": validation.get("summary", {}), "pipeline_status": pipeline_result["status"], "artifacts": sorted(str(path.relative_to(output_dir)) for path in (output_dir / "validation").glob("steam_*.csv"))})
+    generate_phase1_summaries(output_dir)
+    write_latest_recap(output_dir)
     return {"status": pipeline_result["status"], "validation": validation["status"], "rows": len(normalized), "backtest_rows": len(backtest), "output_dir": str(output_dir / "validation")}
 
 

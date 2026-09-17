@@ -29,6 +29,7 @@ from .evaluation.backtest import (
 )
 from .evaluation.intervals import build_conformal_intervals, interval_metrics
 from .explainability.shap_values import explain_lightgbm
+from .reporting.business_language import generate_latest_executive_summary, write_latest_recap
 from .features.build import build_features
 from .forecasting.metadata import ModelRunMetadata
 from .forecasting.models import (
@@ -2113,6 +2114,8 @@ def run_all(
         run = run_pipeline(ctx, STAGE_ORDER, raise_on_failure=True)
         _export_outputs(ctx, ctx.artifacts)
         health = status(ctx)
+        generate_latest_executive_summary(output_dir)
+        write_latest_recap(output_dir)
         return {
             "features": ctx.artifacts["features"],
             "forecast": ctx.artifacts["forecast"],

@@ -1,0 +1,113 @@
+# Deliberate modeling choices and known operating assumptions.
+# Review status does not mean the pipeline failed; it identifies a decision point.
+assumptions:
+  - assumption_id: ASSUMPTION_WEEKLY_GRAIN
+    category: modeling_grain
+    description: Demand is modeled at weekly grain.
+    plain_english: Each forecast represents one week of demand.
+    reason: The current demand and feature pipeline is configured for weekly periods.
+    impact: HIGH
+    status: ACTIVE
+    source: config/models.yaml
+    review_date: null
+    owner_type: data_product_owner
+  - assumption_id: ASSUMPTION_WEEK_END_SATURDAY
+    category: calendar
+    description: Weeks end on Saturday.
+    plain_english: A week's results are grouped through Saturday.
+    reason: The feature and model configuration explicitly sets Saturday week ending.
+    impact: MEDIUM
+    status: ACTIVE
+    source: config/features.yaml
+    review_date: null
+    owner_type: data_product_owner
+  - assumption_id: ASSUMPTION_SYNTHETIC_DEMAND
+    category: data_scope
+    description: Current demand is deterministic synthetic demand, not real Corsair demand.
+    plain_english: The current results test the pipeline, not actual customer buying.
+    reason: No approved internal demand extract is active.
+    impact: HIGH
+    status: ACTIVE
+    source: config/internal_data.yaml
+    review_date: null
+    owner_type: business_data_owner
+  - assumption_id: ASSUMPTION_STEAM_MARKET_SIGNAL
+    category: external_signal
+    description: Steam Hardware Survey represents PC gamer hardware adoption, not direct Corsair demand.
+    plain_english: Steam provides market context; its users are not all customers.
+    reason: The source is a survey of PC gamer hardware.
+    impact: HIGH
+    status: ACTIVE
+    source: docs/steam_hardware_source.md
+    review_date: null
+    owner_type: signal_owner
+  - assumption_id: ASSUMPTION_STEAM_OBSERVED_ONLY
+    category: future_availability
+    description: Future Steam values use observed-only data and are not fabricated.
+    plain_english: The forecast cannot assume future Steam adoption values are known.
+    reason: Future external values must be available at the forecast origin.
+    impact: HIGH
+    status: ACTIVE
+    source: config/features.yaml
+    review_date: null
+    owner_type: data_product_owner
+  - assumption_id: ASSUMPTION_GPU_PUBLIC_DATES
+    category: source
+    description: GPU release dates come from observed public source fields; catalog completeness is not guaranteed.
+    plain_english: Public GPU dates are useful inputs, but the catalog may miss products or classifications.
+    reason: The public catalog has review items and UNKNOWN generations.
+    impact: MEDIUM
+    status: REVIEW
+    source: docs/gpu_signal_validation.md
+    review_date: null
+    owner_type: signal_owner
+  - assumption_id: ASSUMPTION_UNKNOWN_GPU
+    category: classification
+    description: Unknown GPU generation mappings remain UNKNOWN.
+    plain_english: Unclassified products are not assigned a generation by guesswork.
+    reason: Inference would create unsupported signal detail.
+    impact: MEDIUM
+    status: ACTIVE
+    source: outputs/phase1_exit_gate/phase1_gate.json
+    review_date: null
+    owner_type: signal_owner
+  - assumption_id: ASSUMPTION_NON_CAUSAL
+    category: interpretation
+    description: External signals and SHAP outputs are predictive or model-attributed, not causal evidence.
+    plain_english: A signal used by the model does not prove it caused demand.
+    reason: Phase 1 has no causal identification design.
+    impact: HIGH
+    status: ACTIVE
+    source: outputs/phase1_exit_gate/phase1_gate.json
+    review_date: null
+    owner_type: analytics_owner
+  - assumption_id: ASSUMPTION_INTERNAL_DISABLED
+    category: data_scope
+    description: Internal data is not yet active.
+    plain_english: No real internal demand is currently used by the pipeline.
+    reason: The internal source configuration remains disabled until approval.
+    impact: HIGH
+    status: ACTIVE
+    source: config/internal_data.yaml
+    review_date: null
+    owner_type: business_data_owner
+  - assumption_id: ASSUMPTION_FRED_AVAILABILITY
+    category: source
+    description: FRED is described as active only when valid Silver rows exist.
+    plain_english: An enabled source is not treated as available unless usable rows arrive.
+    reason: The current Phase 1 run produced zero macro Silver rows.
+    impact: MEDIUM
+    status: REVIEW
+    source: outputs/phase1_exit_gate/phase1_gate.json
+    review_date: null
+    owner_type: signal_owner
+  - assumption_id: ASSUMPTION_FUTURE_FEATURE_AVAILABILITY
+    category: future_availability
+    description: Future feature handling depends on source availability at the forecast origin.
+    plain_english: A forecast only uses information that could have been available at that time.
+    reason: This preserves point-in-time forecast integrity.
+    impact: HIGH
+    status: ACTIVE
+    source: config/features.yaml
+    review_date: null
+    owner_type: data_product_owner
